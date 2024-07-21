@@ -1,16 +1,21 @@
 # MQTT
+Containers
+- [Mosquitto](https://mosquitto.org) - MQTT-server
+- [MQTT-Explorer](https://mqtt-explorer.com) - MQTT-client
 
-# Help
+
+# Mosquitto
+https://mosquitto.org
+
+start/restart/stop container
 ```sh
-docker compose build mqttexplorer
-
 docker-compose up -d
+docker-compose restart
 docker-compose down
-docker logs mosquitto_mosquitto_1 --follow
 ```
 
 
-# Users / Passwords
+## Users / Passwords
 users/passwords are stored in [/mosquitto/config/mosquitto.passwd](./conf/mosquitto.passwd) file, which is specified as `password_file` in [/mosquitto/config/mosquitto.conf](./conf/mosquitto.conf)
 ```
 password_file /mosquitto/config/mosquitto.passwd
@@ -37,8 +42,21 @@ docker compose restart
 ```
 
 
-# Log
+## Log
 Check log-file [log/mosquitto.log](./log/mosquitto.log)
+
+
+# MQTT-Explorer
+https://mqtt-explorer.com
+- github: https://github.com/thomasnordquist/MQTT-Explorer
+
+```sh
+docker compose build mqttexplorer
+
+docker-compose up -d
+docker-compose down
+docker logs mosquitto_mosquitto_1 --follow
+```
 
 
 # References
