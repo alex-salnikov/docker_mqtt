@@ -1,0 +1,62 @@
+version: '3.7'
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    restart: always
+    volumes:
+      - ./conf:/mosquitto/config
+      - ./data:/mosquitto/data
+      - ./log:/mosquitto/log
+    ports:
+      - ${MQTT_PORT}:1883
+      - ${MQTT_TLS_PORT}:8883
+    environment:
+      TZ: ${TZ}
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+#    network_mode: host
+    networks:
+      frontend-nw:
+        aliases:
+          - mqtt
+
+#  mqttexplorer:
+#    build:
+#      context: ./mqttexplorer
+##      context: ./mqttexplorer/Dockerfile
+##      dockerfile: Dockerfile
+#    image: alex-mqttexplorer:latest
+#    ports:
+#      - "5900:5900"
+
+# https://github.com/thomasnordquist/MQTT-Explorer/blob/master/docker/Dockerfile
+
+networks:
+  frontend-nw:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: br-mosquitto
+
+#volumes:
+#  mosquitto_data:
+#  mosquitto_log:
+
+
+## Help
+
+# docker compose build mqttexplorer
+
+# docker-compose up -d
+# docker-compose down
+# docker logs mosquitto_mosquitto_1 --follow
+
+# https://www.laub-home.de/wiki/Eclipse_Mosquitto_Secure_MQTT_Broker_Docker_Installation
+
+## Passwords
+# docker exec -it  -u 1883 mosquitto-mosquitto-1 sh
+# cd /mosquitto/config
+# mosquitto_passwd -c /mosquitto/config/mosquitto.passwd user_name  # create user/password
+# mosquitto_passwd -U mosquitto.passwd      # <- convert passwords from plaintext to hashed
+# cat mosquitto.passwd
+# chmod u+rw,g+rw,o-rw mosquitto.passwd
